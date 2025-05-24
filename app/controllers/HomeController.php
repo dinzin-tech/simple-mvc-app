@@ -43,4 +43,16 @@ class HomeController extends Controller
             'form' => $form->render()
         ]);
     }
+
+    /**
+     * @Route(path="/greet", methods="GET,post", name="greeetings")
+     */
+    public function greet(Request $request)
+    {
+        $name = $request->get('name', 'Guest');
+        $greeting = "Hello, " . htmlspecialchars($name) . "!";
+
+        return new Response($greeting);
+    }
+    
 }
