@@ -16,4 +16,5 @@ if ($argc < 2) {
 }
 
 $commandManager = new CommandManager();
+$commandManager->init();
 $commandManager->run($argv);
