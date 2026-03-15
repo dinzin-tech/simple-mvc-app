@@ -91,12 +91,44 @@ class User extends Model {
 ### 3. Views
 All visual elements are routed through **Twig**, which resides in the `app/views` directory. The view files end with `.twig`. Data is comfortably passed to the view via the array in the `$this->render()` controller method.
 
-### 4. Tests and Quality
-Linting instructions are heavily baked into the setup via `squizlabs/php_codesniffer` utilizing standard PSR12 compliance:
-```bash
-# Run tests
-composer test
+### 4. Testing
+The application uses **PHPUnit** for both Unit and Feature testing.
 
+#### Running Tests
+You can run all tests using the following command:
+```bash
+./vendor/bin/phpunit
+```
+
+Or run specific suites:
+```bash
+# Run only Unit tests
+./vendor/bin/phpunit --testsuite Unit
+
+# Run only Feature tests
+./vendor/bin/phpunit --testsuite Feature
+```
+
+#### Directory Structure
+- **`tests/Unit/`**: For testing isolated logic (e.g., service classes, models without DB).
+- **`tests/Feature/`**: For testing HTTP routes, controller outputs, and integration flows.
+- **`tests/TestCase.php`**: The base test class where the framework is booted for tests.
+
+#### Writing Tests
+All test classes must extend `Tests\TestCase`. You can use the `$this->get($uri)` helper in Feature tests to simulate requests to your application.
+
+*Example Feature Test:*
+```php
+public function it_loads_the_homepage()
+{
+    $response = $this->get('/');
+    $this->assertEquals(200, $response->getStatusCode());
+}
+```
+
+### 5. Linting and Quality
+Linting instructions are based on PSR12 compliance:
+```bash
 # Linting Checks
 composer lint
 
