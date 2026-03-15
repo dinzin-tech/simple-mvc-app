@@ -32,4 +32,19 @@ abstract class TestCase extends BaseTestCase
         
         return $this->kernel->handle($request);
     }
+
+    /**
+     * Helper to simulate a console command execution.
+     */
+    protected function console(string $commandLine)
+    {
+        $argv = explode(' ', "bin/console " . $commandLine);
+        
+        $commandManager = new \Core\Console\CommandManager();
+        $commandManager->init();
+        
+        ob_start();
+        $commandManager->run($argv);
+        return ob_get_clean();
+    }
 }

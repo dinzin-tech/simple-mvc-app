@@ -124,6 +124,16 @@ public function it_loads_the_homepage()
     $response = $this->get('/');
     $this->assertEquals(200, $response->getStatusCode());
 }
+#### Testing Console Commands
+You can also test custom console commands using the `$this->console()` helper in your feature tests. This helper captures the output of the command for you to assert against.
+
+*Example Console Test:*
+```php
+public function it_can_run_hello_command()
+{
+    $output = $this->console('hello Antigravity');
+    $this->assertStringContainsString('Hello, Antigravity!', $output);
+}
 ```
 
 ### 5. Linting and Quality
@@ -147,7 +157,7 @@ The framework provides an active CLI helper via the `bin/console` executable. It
 - `php bin/console migrations:exec` (Executes pending migrations)
 - `php bin/console help` (Lists all commands)
 
-*Note: You can declare custom commands by placing your classes inside the `commands/` directory. They will automatically be discovered by the CommandManager.*
+*Note: You can declare custom commands by placing your classes inside the `app/Commands` directory. They will automatically be discovered by the CommandManager.*
 
 ## 🛠 Asset Management 
 This project integrates with a gulp-based asset management system to handle compilation, copying, and minification. Use the below commands to interact with standard node modules (requires NPM & Node.js).
