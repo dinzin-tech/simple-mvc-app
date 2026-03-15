@@ -31,7 +31,7 @@ The `composer create-project` command automatically runs a post-installation scr
 
 ### 3. Run the Development Server
 ```bash
-composer serve
+composer serve:dev
 ```
 Your app will be available at `http://localhost:8000`.
 
