@@ -13,8 +13,9 @@ class Composer {
 
         // Create .env file if it doesn't exist
         if (!file_exists('.env')) {
-            file_put_contents('.env', "APP_ENV=local\nDB_HOST=localhost\nDB_NAME=myapp\nDB_USER=root\nDB_PASSWORD=");
-            echo ".env file created.\n";
+            $key = bin2hex(random_bytes(32));
+            file_put_contents('.env', "APP_ENV=local\nDEBUG_MODE=true\nAPP_SECRET=$key\nDB_HOST=localhost\nDB_NAME=myapp\nDB_USER=root\nDB_PASSWORD=");
+            echo ".env file created with a fresh APP_SECRET.\n";
         } else {
             echo ".env file already exists.\n";
         }

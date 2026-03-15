@@ -13,25 +13,48 @@ This app strictly follows the MVC (Model-View-Controller) architecture:
 
 ## 🚀 Quickstart & Installation
 
-1. Clone this repository to your local machine.
-2. Ensure you have PHP 8.1+ & Composer installed.
-3. Install dependencies:
+You can initialize a fresh project using this skeleton. 
+
+### 1. Initialize via Composer
+To create a new project based on this skeleton, run:
+
 ```bash
-composer install
+composer create-project dinzin-tech/simple-mvc-app path-to-your-project
 ```
-4. Setup your environment:
-Copy `.env.example` (if present) to `.env` and adjust the configuration to map your local or remote database:
+
+*Note: Since this is currently a local development version, you may need to use a local repository reference in your composer config or just clone this repository and run `composer install`.*
+
+### 2. Post-Initialization
+The `composer create-project` command automatically runs a post-installation script that:
+- Initializes your `.env` file.
+- Creates the `storage/` directory for caching and logs.
+
+### 3. Run the Development Server
+```bash
+composer serve
+```
+Your app will be available at `http://localhost:8000`.
+
+### 4. Setup Database
+Adjust your the `.env` file:
 ```env
+APP_SECRET=your_random_secret_key
 DEFAULT_DB_HOST=127.0.0.1
 DEFAULT_DB_DATABASE=your_database
 DEFAULT_DB_USER=root
 DEFAULT_DB_PASSWORD=secret
 ```
-5. Run the development server (runs on `localhost:8000` by default):
+
+### 5. Generate Application Key
+You can generate a secure application secret using the console:
 ```bash
-composer serve
+php bin/console keygenerate
 ```
 
+Run migrations:
+```bash
+php bin/console migrations:exec run
+```
 ## 🧠 For Developers and LLM Agents
 
 ### 1. Controllers & Routing Configuration
