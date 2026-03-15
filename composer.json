@@ -10,8 +10,8 @@
     ],
     "repositories": [
         {
-            "type": "path",
-            "url": "../simple-mvc"
+            "type": "vcs",
+            "url": "https://github.com/dinzin-tech/simple-mvc"
         }
     ],
     "require": {
