@@ -19,7 +19,7 @@ You can initialize a fresh project using this skeleton.
 To create a new project based on this skeleton, run:
 
 ```bash
-composer create-project --repository="{\"type\":\"vcs\",\"url\":\"https://github.com/dinzin-tech/simple-mvc-app.git\"}" dinzin-tech/simple-mvc-app path-to-your-project dev-dev-main
+composer create-project --repository="{\"type\":\"vcs\",\"url\":\"https://github.com/dinzin-tech/simple-mvc-app.git\"}" dinzin-tech/simple-mvc-app path-to-your-project dev-main
 ```
 
 *Note: Since this is currently a local development version, you may need to use a local repository reference in your composer config or just clone this repository and run `composer install`.*
