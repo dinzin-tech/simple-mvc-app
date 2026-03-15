@@ -1,0 +1,125 @@
+# simple-mvc-app
+
+`simple-mvc-app` is an implementation example showcasing how to build a web application using the `dinzin-tech/simple-mvc` framework. It serves as a boilerplate for developers and AI agents to understand the structural paradigms, routing mechanisms, and database interactions provided by the underlying framework.
+
+## 🎯 Architecture Overview
+
+This app strictly follows the MVC (Model-View-Controller) architecture:
+- **`app/controllers`**: Handlers for HTTP requests. Controllers here map directly to routes using docblock annotations.
+- **`app/models`**: Active-record style abstractions linking to database tables, empowered by a fluent Query Builder.
+- **`app/views`**: Contains Twig-based templates for the UI.
+- **`public/`**: The document root containing `index.php`, bootstrapping the core Application `Kernel` safely away from internal logic files.
+- **`commands/`**: Stores custom CLI commands for code generation and maintenance.
+
+## 🚀 Quickstart & Installation
+
+1. Clone this repository to your local machine.
+2. Ensure you have PHP 8.1+ & Composer installed.
+3. Install dependencies:
+```bash
+composer install
+```
+4. Setup your environment:
+Copy `.env.example` (if present) to `.env` and adjust the configuration to map your local or remote database:
+```env
+DEFAULT_DB_HOST=127.0.0.1
+DEFAULT_DB_DATABASE=your_database
+DEFAULT_DB_USER=root
+DEFAULT_DB_PASSWORD=secret
+```
+5. Run the development server (runs on `localhost:8000` by default):
+```bash
+composer serve
+```
+
+## 🧠 For Developers and LLM Agents
+
+### 1. Controllers & Routing Configuration
+Routing is decoupled from a central configuration file. Instead, routes are discovered via reflections reading annotations from your controllers. 
+
+*Example from `app/controllers/HomeController.php`:*
+```php
+<?php
+namespace App\Controllers;
+use Core\Controller;
+use Core\Http\Request;
+
+class HomeController extends Controller {
+    /**
+     * @Route(path="/", methods="GET,POST", name="home")
+     */
+    public function index(Request $request) {
+        return $this->render('home/index.html.twig', ['title' => 'Home']);
+    }
+}
+```
+**Agents Note:** When creating new pages, you *must* add the `@Route` annotation accurately for the `Core\Router` component to map the URL correctly.
+
+### 2. Models & Query Builder Usage
+Models in this app correspond directly to tables (e.g. `User` maps to `users`). They extend `Core\Model`.
+We highly recommend utilizing the built-in fluent Query Builder for data retrieval to protect against SQL injections and maintain clean code.
+
+*Example from `app/models/User.php`:*
+```php
+<?php
+namespace App\Models;
+use Core\Model;
+
+class User extends Model {
+    public function __construct() {        
+        $this->table = 'users';
+        parent::__construct(); // No args required here!
+    }
+
+    public function retrieveActiveUsers() {
+        // Utilizing the query builder
+        return self::query()->where('status', 'active')->get();
+    }
+    
+    public function getActiveUsersWithProfiles() {
+        // Complex joins are natively supported
+        return self::query()
+            ->select('users.*', 'profiles.bio')
+            ->join('profiles', 'users.id', '=', 'profiles.user_id')
+            ->where('status', 'active')
+            ->get();
+    }
+}
+```
+**Agents Note:** `Model` objects instantiate their own connection to the Database Singleton. Never invoke `new Database()` manually inside the model. Always utilize `self::query()` to begin building an interaction string. Raw SQL queries are supported via the `->raw($sql, $bindings)` method.
+
+### 3. Views
+All visual elements are routed through **Twig**, which resides in the `app/views` directory. The view files end with `.twig`. Data is comfortably passed to the view via the array in the `$this->render()` controller method.
+
+### 4. Tests and Quality
+Linting instructions are heavily baked into the setup via `squizlabs/php_codesniffer` utilizing standard PSR12 compliance:
+```bash
+# Run tests
+composer test
+
+# Linting Checks
+composer lint
+
+# Auto-fix linting issues
+composer lint-fix
+```
+
+### 5. Console Commands & Generators
+The framework provides an active CLI helper via the `bin/console` executable. It helps generate boilerplate code and manage database migrations rapidly.
+
+*Available Commands:*
+- `php bin/console make:controller ControllerName` (Generates a new Controller)
+- `php bin/console make:model ModelName` (Generates a new Model)
+- `php bin/console make:view path/viewname` (Generates a new Twig View)
+- `php bin/console migrations:create` (Generates a new blank migration file)
+- `php bin/console migrations:exec` (Executes pending migrations)
+- `php bin/console help` (Lists all commands)
+
+*Note: You can declare custom commands by placing your classes inside the `commands/` directory. They will automatically be discovered by the CommandManager.*
+
+## 🛠 Asset Management 
+This project integrates with a gulp-based asset management system to handle compilation, copying, and minification. Use the below commands to interact with standard node modules (requires NPM & Node.js).
+```bash
+npm install
+npm run gulp
+```

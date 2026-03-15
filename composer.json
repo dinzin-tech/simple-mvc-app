@@ -10,15 +10,21 @@
     ],
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://github.com/dinzin-tech/simple-mvc"
+            "type": "path",
+            "url": "../simple-mvc"
         }
     ],
     "require": {
         "dinzin-tech/simple-mvc": "dev-release"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^3.11"
+        "symfony/var-dumper": "^6.3",
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     },
     "autoload": {
         "psr-4": {

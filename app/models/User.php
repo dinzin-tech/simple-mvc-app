@@ -11,13 +11,11 @@ class User extends Model
     public function __construct()
     {        
         $this->table = 'users';
-        parent::__construct($this->table);
+        parent::__construct();
     }
 
     public function test()
     {
-        $db = new Database();
-        $tables = $db->query('SELECT * FROM ' . $this->table);
-        return $tables;
+        return self::query()->get();
     }
 }
