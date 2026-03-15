@@ -2,7 +2,7 @@
     "name": "dinzin-tech/simple-mvc-app",
     "description": "Repo to create Simple MVC App",
     "type": "project",
-    "minimum-stability": "dev",
+    "minimum-stability": "dev-main",
     "prefer-stable": true,
     "authors": [
         {
